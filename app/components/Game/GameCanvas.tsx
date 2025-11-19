@@ -186,7 +186,6 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ gameState, setGameState, jumpMo
     const x = p.x - cameraX;
     const y = p.y - cameraY;
     const cx = x + p.width / 2;
-    const cy = y + p.height / 2;
 
     ctx.save();
     
