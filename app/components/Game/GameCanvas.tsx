@@ -56,6 +56,7 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ gameState, setGameState, jumpMo
   const monstersRef = useRef<MonsterState[]>([]);
   const keysRef = useRef<{ [key: string]: boolean }>({});
   const logoRef = useRef<HTMLImageElement | null>(null);
+  const avatarImageRef = useRef<HTMLImageElement | null>(null);
 
   // Load Logo
   useEffect(() => {
@@ -63,6 +64,15 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ gameState, setGameState, jumpMo
     img.src = '/KiloLogo.png';
     img.onload = () => {
       logoRef.current = img;
+    };
+  }, []);
+
+  // Load Avatar Image
+  useEffect(() => {
+    const img = new Image();
+    img.src = 'https://github.com/astrowq.png';
+    img.onload = () => {
+      avatarImageRef.current = img;
     };
   }, []);
 
@@ -495,7 +505,14 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ gameState, setGameState, jumpMo
     });
 
     // Draw Player
-    drawHumanoid(ctx, playerRef.current, cameraX, cameraY);
+    const player = playerRef.current;
+    if (avatarImageRef.current) {
+      const x = player.x - cameraX;
+      const y = player.y - cameraY;
+      ctx.drawImage(avatarImageRef.current, x, y, player.width, player.height);
+    } else {
+      drawHumanoid(ctx, player, cameraX, cameraY);
+    }
   };
 
   const loop = () => {
